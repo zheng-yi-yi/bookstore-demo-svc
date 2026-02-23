@@ -47,8 +47,15 @@ src/main/java/com/bookstore/springboot/
 ├── data/          # 种子数据初始化逻辑 (Data Seed)
 ├── repository/    # JPA Repositories
 ├── service/       # 业务逻辑接口及实现
+├── mapper/        # 对象映射 (AutoMapper / MapStruct)
 └── exception/     # 全局异常处理
 ```
+
+### 5. 对象映射 (AutoMapper Concept)
+借鉴了 ABP 中的 `IObjectMapper` 概念，引入了 **MapStruct** 作为 Java 世界的 AutoMapper 替代方案：
+- **解耦逻辑**: 在 `BookMapper` 中以接口形式声明映射规则，消除了 Service 层冗长的手工赋值代码。
+- **自动更新**: 通过 `@MappingTarget` 特性，优雅地处理了 `UpdateBookDto` 对现有实体属性的部分更新。
+- **类型安全**: 所有转换在编译期生成，性能等同于手写代码，且具备静态检查能力。
 
 ## 快速开始
 
