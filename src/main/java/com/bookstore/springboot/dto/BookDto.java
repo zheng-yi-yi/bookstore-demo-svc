@@ -1,16 +1,16 @@
 package com.bookstore.springboot.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.bookstore.springboot.dto.base.AuditedEntityDto;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class BookDto {
-    private Long id;
+@SuperBuilder
+@EqualsAndHashCode(callSuper = true)
+public class BookDto extends AuditedEntityDto<UUID> {
     private String title;
     private String author;
     private double price;

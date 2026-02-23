@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/books")
@@ -22,18 +23,18 @@ public class BookController {
     }
 
     @PutMapping("/{id}")
-    public BookDto updateBook(@PathVariable Long id, @RequestBody UpdateBookDto request) {
+    public BookDto updateBook(@PathVariable UUID id, @RequestBody UpdateBookDto request) {
         return bookService.updateBook(id, request);
     }
 
     @GetMapping("/{id}")
-    public BookDto getBookById(@PathVariable Long id) {
+    public BookDto getBookById(@PathVariable UUID id) {
         return bookService.getBookById(id);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteBook(@PathVariable Long id) {
+    public void deleteBook(@PathVariable UUID id) {
         bookService.deleteBook(id);
     }
 

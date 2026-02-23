@@ -1,20 +1,19 @@
 package com.bookstore.springboot.entity;
 
+import com.bookstore.springboot.entity.base.AuditedAggregateRoot;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
+import java.util.UUID;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 @Entity
 @Table(name = "books")
-public class Book {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
+public class Book extends AuditedAggregateRoot<UUID> {
     @Column(name = "title", nullable = false)
     private String title;
 
@@ -23,4 +22,11 @@ public class Book {
 
     @Column(name = "price", nullable = false)
     private double price;
+
+    @PrePersist
+    public void prePersist() {
+        if (this.id == null) {
+            this.id = UUID.randomUUID();
+        }
+    }
 }
