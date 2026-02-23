@@ -14,7 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @SuperBuilder
 public abstract class AuditedAggregateRoot<TKey> extends Entity<TKey> {
-    @Column(name = "creation_time")
+    @Column(name = "creation_time", nullable = false, updatable = false)
     private LocalDateTime creationTime;
 
     @Column(name = "creator_id")
