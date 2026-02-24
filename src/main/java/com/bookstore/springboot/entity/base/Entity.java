@@ -15,5 +15,6 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public abstract class Entity<TKey> {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     protected TKey id;
 }

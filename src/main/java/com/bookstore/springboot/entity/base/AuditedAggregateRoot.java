@@ -2,8 +2,11 @@ package com.bookstore.springboot.entity.base;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -26,15 +29,13 @@ public abstract class AuditedAggregateRoot<TKey> extends Entity<TKey> {
     @Column(name = "last_modifier_id")
     private UUID lastModifierId;
 
-    @jakarta.persistence.PrePersist
-    protected void onPrePersist() {
-        if (creationTime == null) {
-            creationTime = LocalDateTime.now();
-        }
+    @PrePersist
+    protected void prePersist() {
+        this.creationTime = LocalDateTime.now();
     }
 
-    @jakarta.persistence.PreUpdate
-    protected void onPreUpdate() {
-        lastModificationTime = LocalDateTime.now();
+    @PreUpdate
+    protected void preUpdate() {
+        this.lastModificationTime = LocalDateTime.now();
     }
 }

@@ -22,11 +22,4 @@ public class Book extends AuditedAggregateRoot<UUID> {
 
     @Column(name = "price", nullable = false)
     private double price;
-
-    @PrePersist
-    public void prePersist() {
-        if (this.id == null) {
-            this.id = UUID.randomUUID();
-        }
-    }
 }
