@@ -42,7 +42,7 @@ public class UserControllerIntegrationTests {
                 .surname("User")
                 .build();
 
-        mockMvc.perform(post("/api/users")
+        mockMvc.perform(post("/api/identity/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(createDto)))
                 .andExpect(status().isCreated())
@@ -58,12 +58,12 @@ public class UserControllerIntegrationTests {
                 .password("pass1")
                 .build();
         
-        mockMvc.perform(post("/api/users")
+        mockMvc.perform(post("/api/identity/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(user1)))
                 .andExpect(status().isCreated());
 
-        mockMvc.perform(get("/api/users"))
+        mockMvc.perform(get("/api/identity/users"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.items").isArray())
                 .andExpect(jsonPath("$.totalCount").value(1));
