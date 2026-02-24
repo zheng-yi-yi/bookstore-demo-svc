@@ -1,14 +1,27 @@
 package com.bookstore.springboot.service.base;
 
+import com.bookstore.springboot.dto.base.Filter;
+import com.bookstore.springboot.dto.base.PagedAndSortedResultRequestDto;
+import com.bookstore.springboot.dto.base.PagedResultDto;
 import com.bookstore.springboot.exception.ResourceNotFoundException;
 import com.bookstore.springboot.mapper.BaseMapper;
+import jakarta.persistence.criteria.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.util.StringUtils;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public abstract class CrudAppService<TEntity, TEntityDto, TKey, TGetListInput, TCreateInput, TUpdateInput> 
+public abstract class CrudAppService<TEntity, TEntityDto, TKey, TGetListInput extends PagedAndSortedResultRequestDto, TCreateInput, TUpdateInput> 
     implements ICrudAppService<TEntityDto, TKey, TGetListInput, TCreateInput, TUpdateInput> {
 
     @Autowired
@@ -49,10 +62,83 @@ public abstract class CrudAppService<TEntity, TEntityDto, TKey, TGetListInput, T
     }
 
     @Override
-    public List<TEntityDto> getList(TGetListInput input) {
-        // Default implementation returns all; can be overridden for filtering
-        return repository.findAll().stream()
-                .map(mapper::toDto)
-                .collect(Collectors.toList());
+    public PagedResultDto<TEntityDto> getList(TGetListInput input) {
+        Pageable pageable = createPageable(input);
+        Specification<TEntity> spec = createFilteredQuery(input);
+        
+        Page<TEntity> page = ((JpaSpecificationExecutor<TEntity>) repository).findAll(spec, pageable);
+        
+        return new PagedResultDto<>(
+                page.getTotalElements(),
+                page.getContent().stream()
+                        .map(mapper::toDto)
+                        .collect(Collectors.toList())
+        );
+    }
+
+    protected Pageable createPageable(TGetListInput input) {
+        Sort sort = Sort.unsorted();
+        if (StringUtils.hasText(input.getSorting())) {
+            // Simple sorting implementation: "fieldName [asc|desc]"
+            String[] parts = input.getSorting().split(" ");
+            String property = parts[0];
+            if (parts.length > 1 && parts[1].equalsIgnoreCase("desc")) {
+                sort = Sort.by(property).descending();
+            } else {
+                sort = Sort.by(property).ascending();
+            }
+        }
+        
+        return PageRequest.of(input.getSkipCount() / input.getMaxResultCount(), input.getMaxResultCount(), sort);
+    }
+
+    protected Specification<TEntity> createFilteredQuery(TGetListInput input) {
+        return (root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            Field[] fields = input.getClass().getDeclaredFields();
+
+            for (Field field : fields) {
+                if (field.isAnnotationPresent(Filter.class)) {
+                    field.setAccessible(true);
+                    try {
+                        Object value = field.get(input);
+                        if (value == null || (value instanceof String && !StringUtils.hasText((String) value))) {
+                            continue;
+                        }
+
+                        Filter filter = field.getAnnotation(Filter.class);
+                        String propertyName = StringUtils.hasText(filter.property()) ? filter.property() : field.getName();
+
+                        switch (filter.operator()) {
+                            case LIKE:
+                                predicates.add(criteriaBuilder.like(
+                                    criteriaBuilder.lower(root.get(propertyName)),
+                                    "%" + value.toString().toLowerCase() + "%"
+                                ));
+                                break;
+                            case EQUAL:
+                                predicates.add(criteriaBuilder.equal(root.get(propertyName), value));
+                                break;
+                            case GREATER_THAN:
+                                predicates.add(criteriaBuilder.greaterThan(root.get(propertyName), (Comparable) value));
+                                break;
+                            case LESS_THAN:
+                                predicates.add(criteriaBuilder.lessThan(root.get(propertyName), (Comparable) value));
+                                break;
+                            case GREATER_THAN_OR_EQUAL:
+                                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get(propertyName), (Comparable) value));
+                                break;
+                            case LESS_THAN_OR_EQUAL:
+                                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get(propertyName), (Comparable) value));
+                                break;
+                        }
+                    } catch (IllegalAccessException e) {
+                        // Log error or handle as needed
+                    }
+                }
+            }
+
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        };
     }
 }

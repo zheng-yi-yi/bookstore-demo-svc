@@ -1,11 +1,10 @@
 package com.bookstore.springboot.controller.base;
 
+import com.bookstore.springboot.dto.base.PagedResultDto;
 import com.bookstore.springboot.service.base.ICrudAppService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 public abstract class CrudController<TEntityDto, TKey, TGetListInput, TCreateInput, TUpdateInput> {
 
@@ -35,7 +34,7 @@ public abstract class CrudController<TEntityDto, TKey, TGetListInput, TCreateInp
     }
 
     @GetMapping
-    public List<TEntityDto> getList(TGetListInput input) {
+    public PagedResultDto<TEntityDto> getList(TGetListInput input) {
         return service.getList(input);
     }
 }

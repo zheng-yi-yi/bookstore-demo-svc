@@ -1,6 +1,6 @@
 package com.bookstore.springboot.service.base;
 
-import java.util.List;
+import com.bookstore.springboot.dto.base.PagedResultDto;
 
 public interface ICrudAppService<TEntityDto, TKey, TGetListInput, TCreateInput, TUpdateInput> {
     TEntityDto create(TCreateInput input);
@@ -11,5 +11,5 @@ public interface ICrudAppService<TEntityDto, TKey, TGetListInput, TCreateInput, 
 
     void delete(TKey id);
 
-    List<TEntityDto> getList(TGetListInput input);
+    PagedResultDto<TEntityDto> getList(TGetListInput input);
 }

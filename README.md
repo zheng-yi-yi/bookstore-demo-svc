@@ -56,6 +56,13 @@ src/main/java/com/bookstore/springboot/
 - **自动更新**: 通过 `@MappingTarget` 特性，优雅地处理了 `UpdateBookDto` 对现有实体属性的部分更新。
 - **类型安全**: 所有转换在编译期生成，性能等同于手写代码，且具备静态检查能力。
 
+### 6. 分页、排序与声明式查询 (Paged & Declarative Query)
+实现了一套自动化的分页与动态过滤机制，极大地减少了重复的查询代码：
+- **标准化输入输出**: 统一使用 `PagedAndSortedResultRequestDto` 处理分页排序请求，返回 `PagedResultDto<T>` 包含数据与总条数。
+- **声明式过滤 (`@Filter`)**: 在 DTO 字段上通过 `@Filter` 注解直接声明查询逻辑（如 `LIKE`, `EQUAL`, `GREATER_THAN` 等），无需在 Service 层编写任何过滤代码。
+- **基类自动化处理**: `CrudAppService` 利用反射自动解析 DTO 中的注解并转化为 **JPA Specification**，实现了“配置即查询”的体验。
+- **灵活扩展**: 默认支持基于字段名的自动匹配，同时也允许通过 `createFilteredQuery` 钩子方法在业务层实现更复杂的自定义逻辑。
+
 ## 快速开始
 
 1. **配置数据库**: 在 `src/main/resources/application.properties` 中修改数据库连接信息。
@@ -71,3 +78,5 @@ src/main/java/com/bookstore/springboot/
 2. 掌握 UUID 作为主键在 Spring Boot 中的配置与自动生成。
 3. 学习如何构建解耦的、基于接口的 Data Seeding 框架。
 4. 实践 Lombok 在复杂继承体系下的高级用法。
+5. 掌握基于注解和反射的声明式动态查询设计。
+6. 理解 JPA Specification 在构建通用查询基类中的核心作用。
