@@ -28,13 +28,31 @@
 - 自定义业务异常 `ResourceNotFoundException`。
 - 统一的 RESTful 错误响应格式。
 
+### 7. 身份与账户管理 (Identity & Account)
+借鉴 ABP 的账户与身份模块，由于使用了 `core` 下的泛型基类，新模块的开发效率极高：
+- **用户与角色 (Users & Roles)**: 标准化 CRUD，并通过 `@JoinTable` 实现多对多关联。
+- **权限管理 (Permission Management)**:
+    - **声明式定义**: 通过实现 `IPermissionDefinitionProvider` 在各模块中定义专有权限。
+    - **持久化存储**: 权限授予信息（Provider, Key, Name）存入数据库，支持按角色或用户授权。
+- **Account 模块**: 独立于 Identity，处理注册、登录（JWT）及密码重置流程。
+
+### 8. JWT 身份认证机制 (Security & JWT)
+集成了 Spring Security 实现无状态认证：
+- **PasswordEncoder**: 全局使用 `BCrypt` 对密码进行加盐哈希，确保数据存储安全。
+- **TokenProvider**: 基于 JJWT 生成包含用户身份和角色申明（Claims）的签名令牌。
+- **配置最佳实践**:
+    - **开发环境**: 在 `application-dev.properties` 中预设开发密钥，方便即开即用。
+    - **生产环境**: 严格通过环境变量 `APP_JWT_SECRET` 注入密钥，禁止在代码或 Git 仓库中硬码机密信息。
+    - **密钥强度**: 强制要求 256 位及以上强度的密钥（HS256 算法要求）。
+
 ## 技术栈
 
 - **Java**: 17
 - **Framework**: Spring Boot 3.5.x
+- **Security**: Spring Security + JJWT
 - **ORM**: Spring Data JPA / Hibernate
 - **Database**: MySQL (驱动已配置)
-- **Utilities**: Lombok (使用 `@SuperBuilder` 支持深层继承)
+- **Utilities**: Lombok, MapStruct (AutoMapper for Java)
 
 ## 项目结构
 
@@ -48,9 +66,14 @@ src/main/java/com/bookstore/springboot/
 │   ├── entity/     # 领域模型基类
 │   ├── exception/  # 全局异常处理
 │   ├── mapper/     # MapStruct 基础接口
+│   ├── permission/ # 声明式权限框架
+│   ├── security/   # JWT 与安全配置
 │   └── service/    # 通用 CRUD 服务基类
 ├── modules/       # 业务功能层 (10% 业务聚焦)
-│   └── book/       # 图书模块 (Entity, Repository, Service, DTO, Mapper)
+│   ├── account/   # 账号逻辑 (登录、注册)
+│   ├── book/      # 图书模块
+│   ├── identity/  # 身份模块 (User, Role)
+│   └── permission/# 权限授予管理
 └── BookstoreDemoApplication.java # 启动类
 ```
 

@@ -17,6 +17,11 @@ public class AccountController {
         return accountService.register(input);
     }
 
+    @PostMapping("/login")
+    public LoginResultDto login(@RequestBody LoginDto input) {
+        return accountService.login(input);
+    }
+
     @PostMapping("/send-password-reset-code")
     public void sendPasswordResetCode(@RequestBody SendPasswordResetCodeDto input) {
         accountService.sendPasswordResetCode(input);

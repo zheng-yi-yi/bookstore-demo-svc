@@ -5,6 +5,7 @@ import com.bookstore.springboot.modules.user.dto.UserDto;
 
 public interface AccountService {
     UserDto register(RegisterDto input);
+    LoginResultDto login(LoginDto input);
     void sendPasswordResetCode(SendPasswordResetCodeDto input);
     boolean verifyPasswordResetToken(VerifyPasswordResetTokenDto input);
     void resetPassword(ResetPasswordDto input);

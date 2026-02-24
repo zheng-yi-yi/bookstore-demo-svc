@@ -5,6 +5,7 @@ import com.bookstore.springboot.core.data.IDataSeedContributor;
 import com.bookstore.springboot.modules.role.Role;
 import com.bookstore.springboot.modules.role.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import java.util.Collections;
 import java.util.HashSet;
@@ -18,6 +19,9 @@ public class UserDataSeedContributor implements IDataSeedContributor {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public void seed(DataSeedContext context) {
@@ -40,7 +44,7 @@ public class UserDataSeedContributor implements IDataSeedContributor {
         userRepository.save(User.builder()
                 .username("admin")
                 .email("admin@bookstore.com")
-                .password("admin123")
+                .password(passwordEncoder.encode("1q2w3E*"))
                 .name("Admin")
                 .surname("System")
                 .roles(adminRole != null ? new HashSet<>(Collections.singletonList(adminRole)) : new HashSet<>())
@@ -49,7 +53,7 @@ public class UserDataSeedContributor implements IDataSeedContributor {
         userRepository.save(User.builder()
                 .username("john.doe")
                 .email("john.doe@example.com")
-                .password("password123")
+                .password(passwordEncoder.encode("1q2w3E*"))
                 .name("John")
                 .surname("Doe")
                 .build());

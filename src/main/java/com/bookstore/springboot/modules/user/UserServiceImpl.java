@@ -13,6 +13,7 @@ import com.bookstore.springboot.core.service.CrudAppService;
 import com.bookstore.springboot.modules.role.Role;
 import com.bookstore.springboot.modules.role.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -31,10 +32,14 @@ public class UserServiceImpl
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Override
     @Transactional
     public UserDto create(CreateUserDto input) {
         User entity = mapper.toEntity(input);
+        entity.setPassword(passwordEncoder.encode(input.getPassword()));
         if (input.getRoles() != null && !input.getRoles().isEmpty()) {
             entity.setRoles(roleRepository.findByNameIn(input.getRoles()));
         }
