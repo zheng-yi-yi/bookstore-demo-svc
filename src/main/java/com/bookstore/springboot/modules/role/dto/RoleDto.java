@@ -1,9 +1,8 @@
-package com.bookstore.springboot.modules.user.dto;
+package com.bookstore.springboot.modules.role.dto;
 
 import com.bookstore.springboot.core.dto.base.AuditedEntityDto;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -11,10 +10,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @SuperBuilder
 @EqualsAndHashCode(callSuper = true)
-public class UserDto extends AuditedEntityDto<UUID> {
-    private String username;
-    private String email;
+public class RoleDto extends AuditedEntityDto<UUID> {
     private String name;
-    private String surname;
-    private Set<String> roles;
+    private String description;
+    private boolean staticRole;
 }

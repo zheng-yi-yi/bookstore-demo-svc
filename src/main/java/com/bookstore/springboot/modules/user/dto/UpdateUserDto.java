@@ -4,6 +4,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -20,4 +21,6 @@ public class UpdateUserDto {
     private String name;
 
     private String surname;
+
+    private Set<String> roles;
 }
