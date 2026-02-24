@@ -1,9 +1,9 @@
 package com.bookstore.springboot;
 
-import com.bookstore.springboot.dto.BookDto;
-import com.bookstore.springboot.dto.CreateBookDto;
-import com.bookstore.springboot.dto.UpdateBookDto;
-import com.bookstore.springboot.repository.BookRepository;
+import com.bookstore.springboot.modules.book.dto.BookDto;
+import com.bookstore.springboot.modules.book.dto.CreateBookDto;
+import com.bookstore.springboot.modules.book.dto.UpdateBookDto;
+import com.bookstore.springboot.modules.book.BookRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -26,7 +26,7 @@
 - **Exception Handling**: `GlobalExceptionHandler` 统一处理 `ResourceNotFoundException` 等业务异常。
 
 ## 开发者关注点 (The 10% Logic)
-当需要新增一个业务模块（如 `Book`）时，开发者仅需：
+当需要新增一个业务模块（如 `Book`）时，开发者仅需在 `modules` 下创建对应模块文件夹，并：
 1. 定义 **Entity** 继承 `AuditedAggregateRoot`。
 2. 定义 **DTOs**（Create/Update/GetList），在 `GetListInput` 中使用 `@Filter` 声明查询规则。
 3. 定义 **Mapper** 接口继承 `BaseMapper`。
@@ -34,6 +34,7 @@
 5. 定义 **Service/Controller** 继承对应的 `Crud` 基类，通常无需编写任何方法体。
 
 ## 规范与约定
-- 优先查找并利用基类（`base` 包下）的功能。
+- 优先查找并利用核心基类（`core` 包下）的功能。
+- 业务代码应按功能模块（Feature）聚合在 `modules` 包下。
 - 注重 DTO 的声明式编程（如 `@Data`, `@SuperBuilder`, `@Filter`）。
 - 测试驱动：集成测试应继承 `SpringBootTest` 并使用 `MockMvc` 验证完整链路。

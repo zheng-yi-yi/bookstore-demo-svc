@@ -5,7 +5,7 @@
     *   实现 `ISoftDelete` 接口。引入全局过滤器（`@Filter`），确保所有的 `repository.findAll()` 默认只返回 `isDeleted = false` 的数据。
 - [ ] **工作单元 (Unit of Work)**: 
     *   深入理解 Spring 的 `@Transactional`。模仿 ABP 实现一个 UOW 拦截器，确保在事务提交前自动分发领域事件（Domain Events）。
-- [ ] **全局异常标准化 (Standardized Error Response)**: 
+- [X] **全局异常标准化 (Standardized Error Response)**: 
     *   模仿 ABP 的 `RemoteServiceErrorResponse`，即使在 500 错误时也返回固定格式的 JSON（Code, Message, Details, ValidationErrors）。
 
 ### 第二阶段：领域驱动设计 (DDD Patterns)

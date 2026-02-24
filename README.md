@@ -7,7 +7,7 @@
 本项目不仅实现了基础的 CRUD 功能，还引入了一些高级架构设计 concepts：
 
 ### 1. 领域模型与基类设计 (ABP-like Architecture)
-借鉴了 ABP 框架的代码风格，项目中定义了规范的领域模型基类：
+借鉴了 ABP 框架的代码风格，在 `core` 包中定义了规范的领域模型基类：
 - **`Entity<TKey>`**: 统一的实体标识基类，支持泛型主键。
 - **`AuditedAggregateRoot<TKey>`**: 包含审计功能的聚合根基类。
 - **`CrudAppService`**: 通用的增删改查服务基类，通过继承即可获得标准 CRUD 能力。
@@ -40,14 +40,18 @@
 
 ```text
 src/main/java/com/bookstore/springboot/
-├── controller/    # REST API 控制器
-├── dto/           # 数据传输对象 (及 base 基类)
-├── entity/        # 数据库实体 (及 base 基类)
-├── data/          # 种子数据初始化逻辑 (Data Seed)
-├── repository/    # JPA Repositories
-├── service/       # 业务逻辑接口及实现
-├── mapper/        # 对象映射 (AutoMapper / MapStruct)
-└── exception/     # 全局异常处理
+├── config/        # 全局配置 (Spring, OpenAPI 等)
+├── core/          # 框架核心层 (90% 复用代码)
+│   ├── controller/ # 通用 CrudController 基类
+│   ├── data/       # 种子数据基础设施
+│   ├── dto/        # 通用 DTO 与声明式过滤逻辑
+│   ├── entity/     # 领域模型基类
+│   ├── exception/  # 全局异常处理
+│   ├── mapper/     # MapStruct 基础接口
+│   └── service/    # 通用 CRUD 服务基类
+├── modules/       # 业务功能层 (10% 业务聚焦)
+│   └── book/       # 图书模块 (Entity, Repository, Service, DTO, Mapper)
+└── BookstoreDemoApplication.java # 启动类
 ```
 
 ### 5. 对象映射 (AutoMapper Concept)
