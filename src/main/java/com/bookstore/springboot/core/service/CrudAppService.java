@@ -1,6 +1,7 @@
 package com.bookstore.springboot.core.service;
 
 import com.bookstore.springboot.core.dto.filter.Filter;
+import com.bookstore.springboot.core.dto.result.OffsetPageRequest;
 import com.bookstore.springboot.core.dto.result.PagedAndSortedResultRequestDto;
 import com.bookstore.springboot.core.dto.result.PagedResultDto;
 import com.bookstore.springboot.core.exception.ResourceNotFoundException;
@@ -89,7 +90,7 @@ public abstract class CrudAppService<TEntity, TEntityDto, TKey, TGetListInput ex
             }
         }
         
-        return PageRequest.of(input.getSkipCount() / input.getMaxResultCount(), input.getMaxResultCount(), sort);
+        return new OffsetPageRequest(input.getSkipCount(), input.getMaxResultCount(), sort);
     }
 
     protected Specification<TEntity> createFilteredQuery(TGetListInput input) {
