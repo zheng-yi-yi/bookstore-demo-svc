@@ -25,4 +25,16 @@ public abstract class AuditedAggregateRoot<TKey> extends Entity<TKey> {
 
     @Column(name = "last_modifier_id")
     private UUID lastModifierId;
+
+    @jakarta.persistence.PrePersist
+    protected void onPrePersist() {
+        if (creationTime == null) {
+            creationTime = LocalDateTime.now();
+        }
+    }
+
+    @jakarta.persistence.PreUpdate
+    protected void onPreUpdate() {
+        lastModificationTime = LocalDateTime.now();
+    }
 }
