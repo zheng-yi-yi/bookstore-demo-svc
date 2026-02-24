@@ -8,11 +8,10 @@
 
 ### 1. 领域模型与基类设计 (ABP-like Architecture)
 借鉴了 ABP 框架的代码风格，项目中定义了规范的领域模型基类：
-- **`Entity<TKey>`**: 统一的实体标识基类，支持泛型主键（本项目已切换为 `UUID` 以支持分布式场景）。
-- **`AuditedAggregateRoot<TKey>`**: 包含审计功能的聚合根基类，自动处理：
-  - `creationTime` / `creatorId`
-  - `lastModificationTime` / `lastModifierId`
-- **DTO 基类**: 同步提供了 `EntityDto` 和 `AuditedEntityDto`，确保前后端数据传输的一致性。
+- **`Entity<TKey>`**: 统一的实体标识基类，支持泛型主键。
+- **`AuditedAggregateRoot<TKey>`**: 包含审计功能的聚合根基类。
+- **`CrudAppService`**: 通用的增删改查服务基类，通过继承即可获得标准 CRUD 能力。
+- **`CrudController`**: 通用的控制器基类，实现了标准的 RESTful 接口。
 
 ### 2. 规范化种子数据初始化 (Data Seeding)
 实现了一套可扩展且规范化的数据初始化机制：
