@@ -32,12 +32,16 @@
 借鉴 ABP 的账户与身份模块，由于使用了 `core` 下的泛型基类，新模块的开发效率极高：
 - **用户与角色 (Users & Roles)**: 标准化 CRUD，并通过 `@JoinTable` 实现多对多关联。
 - **权限管理 (Permission Management)**:
+    - **单表授权设计**: 仅通过一个 `permission_grants` 表即可实现对用户和角色的统一授权。
+        - **ProviderName**: 标记授权对象类型（'R' 代表角色，'U' 代表用户）。
+        - **ProviderKey**: 对应对象的唯一标识（角色名或用户 ID）。
+        - **优势**: 结构极简且极具扩展性，未来支持部门或组织授权无需改表。
     - **声明式定义**: 通过实现 `IPermissionDefinitionProvider` 在各模块中定义专有权限。
-    - **持久化存储**: 权限授予信息（Provider, Key, Name）存入数据库，支持按角色或用户授权。
 - **Account 模块**: 独立于 Identity，处理注册、登录（JWT）及密码重置流程。
 
 ### 8. JWT 身份认证机制 (Security & JWT)
 集成了 Spring Security 实现无状态认证：
+- **ICurrentUser**: 核心上下文对象。通过注入 `ICurrentUser` 接口，Service 层可以随时获取当前登录用户的 ID、用户名、邮箱及权限状态，无需手动解析 SecurityContext。
 - **PasswordEncoder**: 全局使用 `BCrypt` 对密码进行加盐哈希，确保数据存储安全。
 - **TokenProvider**: 基于 JJWT 生成包含用户身份和角色申明（Claims）的签名令牌。
 - **配置最佳实践**:

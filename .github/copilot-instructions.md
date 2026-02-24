@@ -17,7 +17,8 @@
 - `ICrudAppService<TEntityDto, TKey, ...>`: 定义标准 CRUD 接口。
 - `CrudAppService<TEntity, TEntityDto, TKey, ...>`: 实现通用的增删改查逻辑。
 - `CrudController<...>`: 通用控制器基类，暴露标准的 RESTful 接口。
-- **权限与安全控制**:
+- **权限与环境上下文**:
+    - **ICurrentUser**: 必须注入 `ICurrentUser` 来访问当前用户信息信息（ID, Roles, Permissions）。严禁直接静态调用 `SecurityContextHolder`。
     - **声明式权限定义**: 实现 `IPermissionDefinitionProvider`（如 `IdentityPermissionDefinitionProvider`）来定义模块内的权限层级。
     - **权限控制**: 在 Controller 或方法上使用 `@PreAuthorize("hasAuthority('...')")` 或自定义注解结合 `PermissionChecker` 验证。
     - **Security**: 默认开启 JWT 校验，所有请求需通过 `Authorization: Bearer <token>` 访问，除非显式放行。

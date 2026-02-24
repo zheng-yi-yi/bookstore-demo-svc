@@ -1,5 +1,6 @@
 package com.bookstore.springboot.modules.user;
 
+import com.bookstore.springboot.core.security.AppUserDetails;
 import com.bookstore.springboot.modules.role.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -30,9 +31,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
 
-        return new org.springframework.security.core.userdetails.User(
+        return new AppUserDetails(
+                user.getId(),
                 user.getUsername(),
                 user.getPassword(),
+                user.getEmail(),
                 authorities);
     }
 }

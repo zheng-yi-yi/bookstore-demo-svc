@@ -37,12 +37,18 @@ public class TokenProvider {
         long now = (new Date()).getTime();
         Date validity = new Date(now + jwtProperties.getExpireTime() * 1000);
 
-        return Jwts.builder()
+        var builder = Jwts.builder()
                 .subject(authentication.getName())
                 .claim("auth", authorities)
                 .signWith(getSigningKey(), Jwts.SIG.HS256)
-                .expiration(validity)
-                .compact();
+                .expiration(validity);
+
+        if (authentication.getPrincipal() instanceof AppUserDetails userDetails) {
+            builder.claim("userId", userDetails.getId().toString());
+            builder.claim("email", userDetails.getEmail());
+        }
+
+        return builder.compact();
     }
 
     public Authentication getAuthentication(String token) {
@@ -58,7 +64,11 @@ public class TokenProvider {
                         .map(SimpleGrantedAuthority::new)
                         .collect(Collectors.toList());
 
-        User principal = new User(claims.getSubject(), "", authorities);
+        String userIdStr = claims.get("userId", String.class);
+        String email = claims.get("email", String.class);
+        UUID userId = userIdStr != null ? UUID.fromString(userIdStr) : null;
+
+        AppUserDetails principal = new AppUserDetails(userId, claims.getSubject(), "", email, authorities);
 
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }
