@@ -1,5 +1,5 @@
 ### 第一阶段：基础设施与切面增强 (Infrastructure & AOP)
-- [ ] **自动化审计注入 (Audit Logic Automation)**: 
+- [X] **自动化审计注入 (Audit Logic Automation)**: 
     *   目前 `creationTime` 等还需要手动赋值或由 JPA 钩子处理。实现 `AuditPropertySetter`，利用 JPA 监听器（`@EntityListeners`）或 Hibernate 过滤器，根据当前登录用户自动填充 `CreatorId` 和 `CreationTime`。
 - [ ] **软删除 (Soft Delete)**: 
     *   实现 `ISoftDelete` 接口。引入全局过滤器（`@Filter`），确保所有的 `repository.findAll()` 默认只返回 `isDeleted = false` 的数据。
