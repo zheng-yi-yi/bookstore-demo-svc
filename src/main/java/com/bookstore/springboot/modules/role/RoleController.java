@@ -1,6 +1,6 @@
 package com.bookstore.springboot.modules.role;
 
-import com.bookstore.springboot.core.controller.CrudController;
+import com.bookstore.springboot.core.base.controller.CrudController;
 import com.bookstore.springboot.modules.role.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,3 +19,4 @@ public class RoleController extends CrudController<RoleDto, UUID, RoleGetListInp
         return roleService.getAll();
     }
 }
+

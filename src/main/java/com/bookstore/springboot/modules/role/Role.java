@@ -1,6 +1,6 @@
 package com.bookstore.springboot.modules.role;
 
-import com.bookstore.springboot.core.entity.AuditedAggregateRoot;
+import com.bookstore.springboot.core.base.entity.AuditedAggregateRoot;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -23,3 +23,4 @@ public class Role extends AuditedAggregateRoot<UUID> {
     @Column(name = "is_static")
     private boolean staticRole;
 }
+

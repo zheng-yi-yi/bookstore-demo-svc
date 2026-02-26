@@ -1,6 +1,6 @@
 package com.bookstore.springboot.modules.user;
 
-import com.bookstore.springboot.core.controller.CrudController;
+import com.bookstore.springboot.core.base.controller.CrudController;
 import com.bookstore.springboot.modules.user.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -40,3 +40,4 @@ public class UserController extends CrudController<UserDto, UUID, UserGetListInp
         return userService.getAssignableRoles();
     }
 }
+

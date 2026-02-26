@@ -1,8 +1,8 @@
 package com.bookstore.springboot.modules.permission;
 
-import com.bookstore.springboot.core.data.DataSeedContext;
-import com.bookstore.springboot.core.data.IDataSeedContributor;
-import com.bookstore.springboot.core.permission.PermissionRegistry;
+import com.bookstore.springboot.core.seeding.DataSeedContext;
+import com.bookstore.springboot.core.seeding.IDataSeedContributor;
+import com.bookstore.springboot.core.infrastructure.permission.PermissionRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.util.List;
@@ -36,3 +36,4 @@ public class PermissionDataSeedContributor implements IDataSeedContributor {
         }
     }
 }
+

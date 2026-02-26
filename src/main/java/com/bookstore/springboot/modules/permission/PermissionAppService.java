@@ -1,7 +1,7 @@
 package com.bookstore.springboot.modules.permission;
 
-import com.bookstore.springboot.core.permission.PermissionDefinition;
-import com.bookstore.springboot.core.permission.PermissionRegistry;
+import com.bookstore.springboot.core.infrastructure.permission.PermissionDefinition;
+import com.bookstore.springboot.core.infrastructure.permission.PermissionRegistry;
 import com.bookstore.springboot.modules.permission.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -70,3 +70,4 @@ public class PermissionAppService {
         permissionGrantRepository.saveAll(newGrants);
     }
 }
+

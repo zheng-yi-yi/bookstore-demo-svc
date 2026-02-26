@@ -1,7 +1,7 @@
 package com.bookstore.springboot.modules.user;
 
-import com.bookstore.springboot.core.mapper.BaseMapper;
-import com.bookstore.springboot.core.mapper.IgnoreAuditedProperties;
+import com.bookstore.springboot.core.base.mapper.BaseMapper;
+import com.bookstore.springboot.core.base.mapper.IgnoreAuditedProperties;
 import com.bookstore.springboot.modules.role.Role;
 import com.bookstore.springboot.modules.user.dto.UserDto;
 import com.bookstore.springboot.modules.user.dto.CreateUserDto;
@@ -36,3 +36,4 @@ public interface UserMapper extends BaseMapper<User, UserDto, CreateUserDto, Upd
         return roles.stream().map(Role::getName).collect(Collectors.toSet());
     }
 }
+

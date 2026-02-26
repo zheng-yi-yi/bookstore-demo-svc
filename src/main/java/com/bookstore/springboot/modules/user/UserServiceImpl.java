@@ -1,7 +1,7 @@
 package com.bookstore.springboot.modules.user;
 
 import com.bookstore.springboot.modules.user.dto.*;
-import com.bookstore.springboot.core.service.CrudAppService;
+import com.bookstore.springboot.core.base.service.CrudAppService;
 import com.bookstore.springboot.modules.role.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.UUID;
 
 import com.bookstore.springboot.modules.user.dto.*;
-import com.bookstore.springboot.core.service.CrudAppService;
+import com.bookstore.springboot.core.base.service.CrudAppService;
 import com.bookstore.springboot.modules.role.Role;
 import com.bookstore.springboot.modules.role.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,3 +95,4 @@ public class UserServiceImpl
         return roleRepository.findAll().stream().map(Role::getName).collect(Collectors.toList());
     }
 }
+

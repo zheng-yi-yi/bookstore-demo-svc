@@ -1,8 +1,8 @@
 package com.bookstore.springboot.modules.role.permissions;
 
-import com.bookstore.springboot.core.permission.IPermissionDefinitionContext;
-import com.bookstore.springboot.core.permission.IPermissionDefinitionProvider;
-import com.bookstore.springboot.core.permission.PermissionDefinition;
+import com.bookstore.springboot.core.infrastructure.permission.IPermissionDefinitionContext;
+import com.bookstore.springboot.core.infrastructure.permission.IPermissionDefinitionProvider;
+import com.bookstore.springboot.core.infrastructure.permission.PermissionDefinition;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -20,3 +20,4 @@ public class RolePermissionDefinitionProvider implements IPermissionDefinitionPr
         roles.addChild(RolePermissions.Roles_Delete, "Delete");
     }
 }
+

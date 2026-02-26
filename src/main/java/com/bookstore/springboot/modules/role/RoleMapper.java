@@ -1,7 +1,7 @@
 package com.bookstore.springboot.modules.role;
 
-import com.bookstore.springboot.core.mapper.BaseMapper;
-import com.bookstore.springboot.core.mapper.IgnoreAuditedProperties;
+import com.bookstore.springboot.core.base.mapper.BaseMapper;
+import com.bookstore.springboot.core.base.mapper.IgnoreAuditedProperties;
 import com.bookstore.springboot.modules.role.dto.RoleDto;
 import com.bookstore.springboot.modules.role.dto.CreateRoleDto;
 import com.bookstore.springboot.modules.role.dto.UpdateRoleDto;
@@ -24,3 +24,4 @@ public interface RoleMapper extends BaseMapper<Role, RoleDto, CreateRoleDto, Upd
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateEntityFromDto(UpdateRoleDto dto, @MappingTarget Role entity);
 }
+

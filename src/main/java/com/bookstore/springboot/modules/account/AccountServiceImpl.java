@@ -1,6 +1,6 @@
 package com.bookstore.springboot.modules.account;
 
-import com.bookstore.springboot.core.security.TokenProvider;
+import com.bookstore.springboot.core.infrastructure.security.TokenProvider;
 import com.bookstore.springboot.modules.account.dto.*;
 import com.bookstore.springboot.modules.user.UserService;
 import com.bookstore.springboot.modules.user.dto.CreateUserDto;
@@ -65,3 +65,4 @@ public class AccountServiceImpl implements AccountService {
         System.out.println("Resetting password for: " + input.getEmail());
     }
 }
+

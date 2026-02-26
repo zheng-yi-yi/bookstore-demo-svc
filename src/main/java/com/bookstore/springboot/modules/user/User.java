@@ -1,6 +1,6 @@
 package com.bookstore.springboot.modules.user;
 
-import com.bookstore.springboot.core.entity.AuditedAggregateRoot;
+import com.bookstore.springboot.core.base.entity.AuditedAggregateRoot;
 import com.bookstore.springboot.modules.role.Role;
 import jakarta.persistence.*;
 import lombok.*;
@@ -39,3 +39,4 @@ public class User extends AuditedAggregateRoot<UUID> {
     )
     private Set<Role> roles;
 }
+

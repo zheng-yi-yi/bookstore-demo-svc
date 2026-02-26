@@ -1,7 +1,7 @@
 package com.bookstore.springboot.modules.user;
 
-import com.bookstore.springboot.core.data.DataSeedContext;
-import com.bookstore.springboot.core.data.IDataSeedContributor;
+import com.bookstore.springboot.core.seeding.DataSeedContext;
+import com.bookstore.springboot.core.seeding.IDataSeedContributor;
 import com.bookstore.springboot.modules.role.Role;
 import com.bookstore.springboot.modules.role.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,3 +59,4 @@ public class UserDataSeedContributor implements IDataSeedContributor {
                 .build());
     }
 }
+

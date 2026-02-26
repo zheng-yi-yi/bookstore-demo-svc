@@ -1,7 +1,7 @@
 package com.bookstore.springboot.modules.book;
 
-import com.bookstore.springboot.core.mapper.BaseMapper;
-import com.bookstore.springboot.core.mapper.IgnoreAuditedProperties;
+import com.bookstore.springboot.core.base.mapper.BaseMapper;
+import com.bookstore.springboot.core.base.mapper.IgnoreAuditedProperties;
 import com.bookstore.springboot.modules.book.dto.BookDto;
 import com.bookstore.springboot.modules.book.dto.CreateBookDto;
 import com.bookstore.springboot.modules.book.dto.UpdateBookDto;
@@ -23,3 +23,4 @@ public interface BookMapper extends BaseMapper<Book, BookDto, CreateBookDto, Upd
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateEntityFromDto(UpdateBookDto dto, @MappingTarget Book book);
 }
+

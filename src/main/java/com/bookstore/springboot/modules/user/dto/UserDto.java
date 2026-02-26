@@ -1,6 +1,6 @@
 package com.bookstore.springboot.modules.user.dto;
 
-import com.bookstore.springboot.core.dto.base.AuditedEntityDto;
+import com.bookstore.springboot.core.base.dto.AuditedEntityDto;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import java.util.Set;
@@ -18,3 +18,4 @@ public class UserDto extends AuditedEntityDto<UUID> {
     private String surname;
     private Set<String> roles;
 }
+

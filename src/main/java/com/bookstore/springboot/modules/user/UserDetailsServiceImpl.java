@@ -1,6 +1,6 @@
 package com.bookstore.springboot.modules.user;
 
-import com.bookstore.springboot.core.security.AppUserDetails;
+import com.bookstore.springboot.core.infrastructure.security.AppUserDetails;
 import com.bookstore.springboot.modules.role.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -39,3 +39,4 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 authorities);
     }
 }
+

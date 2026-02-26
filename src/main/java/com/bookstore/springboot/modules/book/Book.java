@@ -1,6 +1,6 @@
 package com.bookstore.springboot.modules.book;
 
-import com.bookstore.springboot.core.entity.AuditedAggregateRoot;
+import com.bookstore.springboot.core.base.entity.AuditedAggregateRoot;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -23,3 +23,4 @@ public class Book extends AuditedAggregateRoot<UUID> {
     @Column(name = "price", nullable = false)
     private double price;
 }
+

@@ -1,7 +1,7 @@
 package com.bookstore.springboot.modules.book;
 
-import com.bookstore.springboot.core.data.DataSeedContext;
-import com.bookstore.springboot.core.data.IDataSeedContributor;
+import com.bookstore.springboot.core.seeding.DataSeedContext;
+import com.bookstore.springboot.core.seeding.IDataSeedContributor;
 import com.bookstore.springboot.modules.book.Book;
 import com.bookstore.springboot.modules.book.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,3 +39,4 @@ public class BookDataSeedContributor implements IDataSeedContributor {
                 .build());
     }
 }
+

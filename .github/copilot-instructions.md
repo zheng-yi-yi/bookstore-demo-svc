@@ -9,14 +9,20 @@
 
 ## 架构核心组件 (Core Architecture)
 
-### 1. 领域模型基类
-- `Entity<TKey>`: 所有实体的基类，统一定义 ID。
-- `AuditedAggregateRoot<TKey>`: 包含自动审计功能（`creationTime`, `lastModificationTime` 等）的聚合根基类。
+### 1. 核心分层设计 (Core Stratification)
+`core` 包已重构为职责分明的分层结构：
+- **`core.base`**: 存放 `Entity`, `AuditedAggregateRoot`, `ICrudAppService`, `CrudAppService`, `CrudController`, `BaseMapper` 等核心抽象。
+- **`core.infrastructure`**: 存放 `security` (JWT 认证), `exception` (全局异常), `permission` (权限注册) 等底层横切关注点。
+- **`core.query`**: 存放 `filter` (声明式过滤) 和 `result` (分页结果) 等查询协议相关类。
+- **`core.seeding`**: 存放数据种子初始化逻辑。
 
-### 2. 标准化 CRUD 与 权限框架 (The 90% Downlink)
-- `ICrudAppService<TEntityDto, TKey, ...>`: 定义标准 CRUD 接口。
-- `CrudAppService<TEntity, TEntityDto, TKey, ...>`: 实现通用的增删改查逻辑。
-- `CrudController<...>`: 通用控制器基类，暴露标准的 RESTful 接口。
+### 2. 领域模型基类
+- `Entity<TKey>`: `core.base.entity` 下所有实体的基类，统一定义 ID。
+- `AuditedAggregateRoot<TKey>`: `core.base.entity` 下包含自动审计功能的聚合根基类。
+
+### 3. 标准化 CRUD 与 权限框架
+- `ICrudAppService`, `CrudAppService`: 在 `core.base.service` 下定义通用逻辑。
+- `CrudController`: 在 `core.base.controller` 下暴露标准的 RESTful 接口。
 - **权限与环境上下文**:
     - **ICurrentUser**: 必须注入 `ICurrentUser` 来访问当前用户信息信息（ID, Roles, Permissions）。严禁直接静态调用 `SecurityContextHolder`。
     - **声明式权限定义**: 实现 `IPermissionDefinitionProvider`（如 `IdentityPermissionDefinitionProvider`）来定义模块内的权限层级。
@@ -51,3 +57,4 @@
 - 业务代码应按功能模块（Feature）聚合在 `modules` 包下。
 - 注重 DTO 的声明式编程（如 `@Data`, `@SuperBuilder`, `@Filter`）。
 - 测试驱动：集成测试应继承 `SpringBootTest` 并使用 `MockMvc` 验证完整链路。
+- **文档同步**: 每次涉及架构变动或重大功能更新，必须同步更新 [README.md](README.md) 和 [.github/copilot-instructions.md](.github/copilot-instructions.md)，确保文档与代码一致。

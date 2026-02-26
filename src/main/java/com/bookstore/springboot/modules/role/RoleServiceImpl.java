@@ -1,7 +1,7 @@
 package com.bookstore.springboot.modules.role;
 
 import com.bookstore.springboot.modules.role.dto.*;
-import com.bookstore.springboot.core.service.CrudAppService;
+import com.bookstore.springboot.core.base.service.CrudAppService;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
@@ -17,3 +17,4 @@ public class RoleServiceImpl
         return repository.findAll().stream().map(mapper::toDto).collect(Collectors.toList());
     }
 }
+

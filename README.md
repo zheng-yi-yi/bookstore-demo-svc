@@ -63,16 +63,11 @@
 ```text
 src/main/java/com/bookstore/springboot/
 ├── config/        # 全局配置 (Spring, OpenAPI 等)
-├── core/          # 框架核心层 (90% 复用代码)
-│   ├── controller/ # 通用 CrudController 基类
-│   ├── data/       # 种子数据基础设施
-│   ├── dto/        # 通用 DTO 与声明式过滤逻辑
-│   ├── entity/     # 领域模型基类
-│   ├── exception/  # 全局异常处理
-│   ├── mapper/     # MapStruct 基础接口
-│   ├── permission/ # 声明式权限框架
-│   ├── security/   # JWT 与安全配置
-│   └── service/    # 通用 CRUD 服务基类
+├── core/          # 框架核心层 (高度解耦的内部框架)
+│   ├── base/           # 业务基石 (Entity, Service, Controller, Mapper 基类)
+│   ├── infrastructure/ # 技术基础设施 (Security/JWT, Exception, Permission 机制)
+│   ├── query/          # 查询协议 (声明式 Filter, PagedResult)
+│   └── seeding/        # 数据种子机制 (DataSeeder)
 ├── modules/       # 业务功能层 (10% 业务聚焦)
 │   ├── account/   # 账号逻辑 (登录、注册)
 │   ├── book/      # 图书模块
