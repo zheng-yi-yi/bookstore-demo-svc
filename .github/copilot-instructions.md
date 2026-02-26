@@ -57,4 +57,6 @@
 - 业务代码应按功能模块（Feature）聚合在 `modules` 包下。
 - 注重 DTO 的声明式编程（如 `@Data`, `@SuperBuilder`, `@Filter`）。
 - 测试驱动：集成测试应继承 `SpringBootTest` 并使用 `MockMvc` 验证完整链路。
-- **文档同步**: 每次涉及架构变动或重大功能更新，必须同步更新 [README.md](README.md) 和 [.github/copilot-instructions.md](.github/copilot-instructions.md)，确保文档与代码一致。
+- **文档同步 (强制执行)**:
+    - 每次涉及架构变动、新增模块或重大功能更新，**必须**同步更新 [README.md](README.md) 和 [.github/copilot-instructions.md](.github/copilot-instructions.md)，确保文档与代码实时一致。
+    - 在完成更新后，应在回复中提供对应的 **Git Commit 信息**。

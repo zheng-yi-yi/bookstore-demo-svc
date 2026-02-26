@@ -39,6 +39,13 @@
     - **声明式定义**: 通过实现 `IPermissionDefinitionProvider` 在各模块中定义专有权限。
 - **Account 模块**: 独立于 Identity，处理注册、登录（JWT）及密码重置流程。
 
+### 9. 图书商城核心业务 (Book Store Business)
+为了演示复杂业务场景，本项目扩展了完整的图书商城业务链路：
+- **图书与作者 (Book & Author)**: `Book` 实体全面升级，支持 ISBN（唯一校验）、销售价与成本价、多级分类关联。
+- **分类体系 (Categories)**: `Category` 支持父子级无限嵌套，构建书籍导购树。
+- **购物车 (Cart & CartItems)**: 与用户绑定的高性能购物车模型。
+- **订单流程 (Order & OrderItems)**: 支持状态流转（待支付、已支付、已完成、已取消）及下单时的单价快照（Snapshot）逻辑。
+
 ### 8. JWT 身份认证机制 (Security & JWT)
 集成了 Spring Security 实现无状态认证：
 - **ICurrentUser**: 核心上下文对象。通过注入 `ICurrentUser` 接口，Service 层可以随时获取当前登录用户的 ID、用户名、邮箱及权限状态，无需手动解析 SecurityContext。
@@ -70,8 +77,12 @@ src/main/java/com/bookstore/springboot/
 │   └── seeding/        # 数据种子机制 (DataSeeder)
 ├── modules/       # 业务功能层 (10% 业务聚焦)
 │   ├── account/   # 账号逻辑 (登录、注册)
-│   ├── book/      # 图书模块
+│   ├── author/    # 作者模块
+│   ├── book/      # 图书模块 (关联作者与分类)
+│   ├── cart/      # 购物车模块
+│   ├── category/  # 分类模块 (支持多级分类)
 │   ├── identity/  # 身份模块 (User, Role)
+│   ├── order/     # 订单模块
 │   └── permission/# 权限授予管理
 └── BookstoreDemoApplication.java # 启动类
 ```
