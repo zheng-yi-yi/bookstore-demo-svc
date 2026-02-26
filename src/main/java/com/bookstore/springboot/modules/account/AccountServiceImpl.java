@@ -1,7 +1,10 @@
 package com.bookstore.springboot.modules.account;
 
+import com.bookstore.springboot.core.infrastructure.security.JwtProperties;
 import com.bookstore.springboot.core.infrastructure.security.TokenProvider;
 import com.bookstore.springboot.modules.account.dto.*;
+import com.bookstore.springboot.modules.permission.PermissionGrant;
+import com.bookstore.springboot.modules.permission.PermissionGrantRepository;
 import com.bookstore.springboot.modules.user.UserService;
 import com.bookstore.springboot.modules.user.dto.CreateUserDto;
 import com.bookstore.springboot.modules.user.dto.UserDto;
@@ -11,6 +14,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -23,6 +31,12 @@ public class AccountServiceImpl implements AccountService {
 
     @Autowired
     private TokenProvider tokenProvider;
+
+    @Autowired
+    private JwtProperties jwtProperties;
+
+    @Autowired
+    private PermissionGrantRepository permissionGrantRepository;
 
     @Override
     public UserDto register(RegisterDto input) {
@@ -44,7 +58,34 @@ public class AccountServiceImpl implements AccountService {
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = tokenProvider.createToken(authentication);
-        return LoginResultDto.builder().accessToken(jwt).build();
+
+        UserDto userDto = userService.getByUsername(input.getUsername());
+
+        // Fetch permissions for all roles
+        List<PermissionGrant> roleGrants = permissionGrantRepository.findByProviderNameAndProviderKeyIn(
+                "R", userDto.getRoles());
+
+        // Fetch permissions directly for user
+        List<PermissionGrant> userGrants = permissionGrantRepository.findByProviderNameAndProviderKey(
+                "U", userDto.getId().toString());
+
+        Set<String> permissions = new HashSet<>();
+        permissions.addAll(roleGrants.stream().map(PermissionGrant::getName).collect(Collectors.toSet()));
+        permissions.addAll(userGrants.stream().map(PermissionGrant::getName).collect(Collectors.toSet()));
+
+        return LoginResultDto.builder()
+                .accessToken(jwt)
+                .expiresInSeconds(jwtProperties.getExpireTime())
+                .permissions(permissions)
+                .userInfo(LoginResultDto.UserInfo.builder()
+                        .id(userDto.getId())
+                        .username(userDto.getUsername())
+                        .email(userDto.getEmail())
+                        .name(userDto.getName())
+                        .surname(userDto.getSurname())
+                        .roles(userDto.getRoles())
+                        .build())
+                .build();
     }
 
     @Override
